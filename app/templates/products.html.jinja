@@ -1,5 +1,15 @@
 {% extends "base.html.jinja" %}
 {% block title %}Lista produktów{% endblock %}
-{% block content %}
-    {{products}}
+{% block content %}   
+<div class="list-group">
+    {% for product in products %}
+        <a href="https://www.ceneo.pl/{{product['product_id']}}" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{product['product_name']}}</h5>
+            <p class="mb-1">Liczba opinii: {{product['opinions_count']}}</p>
+            <p class="mb-1">Liczba wad: {{product['cons_count']}}</p>
+            <p class="mb-1">Liczba zalet: {{product['pros_count']}}</p>
+            <p class="mb-1">Średnia ocena: {{product['average_rating']}}</p>
+        </a>
+    {% endfor %}
+</div>
 {% endblock %}

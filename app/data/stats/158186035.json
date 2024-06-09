@@ -1,0 +1,26 @@
+{
+    "product_id": "158186035",
+    "product_name": "Google Pixel 8 8/128GB Czarny",
+    "opinions_count": 10,
+    "pros_count": 7,
+    "cons_count": 5,
+    "average_rating": 4.3,
+    "rating_distribution": {
+        "0.0": 0,
+        "0.5": 1,
+        "1.0": 0,
+        "1.5": 0,
+        "2.0": 0,
+        "2.5": 0,
+        "3.0": 0,
+        "3.5": 1,
+        "4.0": 1,
+        "4.5": 0,
+        "5.0": 7
+    },
+    "recommendations_distribution": {
+        "Polecam": 8,
+        "Nie polecam": 1,
+        "Brak rekomendacji": 0
+    }
+}

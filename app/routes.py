@@ -10,7 +10,6 @@ import io
 from app import utils
 
 @app.route('/')
-@app.route('/index')
 def index():
     return render_template("index.html.jinja")
 
@@ -19,7 +18,7 @@ def extract():
     if request.method == 'POST':
         product_id = request.form.get('product_id')
         url = f"https://www.ceneo.pl/{product_id}"
-        response = requests.get(url=url)
+        response = requests.get(url)
         if response.status_code == requests.codes['ok']:
             page_dom = BeautifulSoup(response.text, "html.parser")
             opinions_count = utils.extract(page_dom, "a.product-review__link > span")
@@ -51,8 +50,8 @@ def extract():
                 opinions.rating = opinions.rating.apply(lambda r: r.split("/")[0].replace(",","."), ).astype(float)
                 opinions.recomendation = opinions.recommendation.apply(lambda r: "Brak rekomendacji" if r is None else r)
                 stats = {
-                "product_name" : product_name,
                 "product_id" : product_id,
+                "product_name" : product_name,
                 "opinions_count" : opinions.shape[0],
                 "pros_count" : int(opinions.pros.apply(lambda p: 1 if p else 0).sum()),
                 "cons_count" : int(opinions.cons.apply(lambda c: 1 if c else 0).sum()),
@@ -63,27 +62,27 @@ def extract():
                 if not os.path.exists("app/data/stats"):
                     os.mkdir("app/data/stats")
                 with open(f"app/data/stats/{product_id}.json", "w", encoding="UTF-8") as jf:
-                    json.dump(all_opinions, jf, indent=4, ensure_ascii=False)
+                    json.dump(stats, jf, indent=4, ensure_ascii=False)
                 
                 return redirect(url_for('product', product_id=product_id))
-            error = "Brak opinii"
-            return render_template('extract.html.jinja', error=error)
-        error = "Błędny kod - strona nie istnieje"
+            error = "Brak opinii dla produktu o podanym id"
+            return render_template("extract.html.jinja", error=error)
+        error = "Nie istnieje produkt o podanym id"
         return render_template('extract.html.jinja', error=error)
-    return render_template('extract.html.jinja')
+    return render_template("extract.html.jinja")
 
 @app.route('/products')
 def products():
     products_list = [filename.split(".")[0] for filename in os.listdir("app/data/opinions")]
     products = []
     for product_id in products_list:
-        with open(f"app/data/opinions/{product_id}.json", "r", encoding="UTF-8") as jf:
-            products.append(json.load())
-    return render_template("products.html.jinja")
+        with open(f"app/data/stats/{product_id}.json", "r", encoding="UTF-8") as jf:
+            products.append(json.load(jf))
+    return render_template("products.html.jinja", products=products)
 
 @app.route('/author')
 def author():
-    return render_template("author.html.jinja")
+    return render_template("author.html.jinja", products = products)
 
 @app.route('/product/<product_id>')
 def product(product_id):
@@ -94,9 +93,9 @@ def download_json(product_id):
     return send_file(f"app/data/opinions/{product_id}.json", "text/json", as_attachment=True)
 
 @app.route('/product/download_csv/<product_id>')
-def download_json(product_id):
+def download_csv(product_id):
     opinions = pd.read_json(f"app/data/opinions/{product_id}.json")
-    buffer = io.BytesIO((opinions.to_csv(sep=";",decimal=",",index=False))).encode()
+    buffer = io.BytesIO(opinions.to_csv(sep=";",decimal=",",index=False).encode())
     opinions.to_csv()
     return send_file(buffer, "text/csv", as_attachment=True,download_name=f"{product_id}.csv")
 
@@ -104,9 +103,3 @@ def download_json(product_id):
 def download_xlsx(product_id):
     pass
 
-
-
-@app.route('/hello')
-@app.route('/hello/<name>')
-def hello(name="World"):
-    return f"Hello, {name}!"

@@ -1,0 +1,26 @@
+{
+    "product_id": "114700014",
+    "product_name": "Dyson V12 Detect Slim Absolute",
+    "opinions_count": 10,
+    "pros_count": 7,
+    "cons_count": 0,
+    "average_rating": 4.4,
+    "rating_distribution": {
+        "0.0": 0,
+        "0.5": 0,
+        "1.0": 1,
+        "1.5": 0,
+        "2.0": 0,
+        "2.5": 0,
+        "3.0": 0,
+        "3.5": 0,
+        "4.0": 2,
+        "4.5": 0,
+        "5.0": 7
+    },
+    "recommendations_distribution": {
+        "Polecam": 9,
+        "Nie polecam": 1,
+        "Brak rekomendacji": 0
+    }
+}
