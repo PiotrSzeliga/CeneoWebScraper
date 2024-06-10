@@ -1,4 +1,25 @@
 {% extends "base.html.jinja" %}
 {% block content %}
-    <p>To jest strona główna.</p>
+    <p>Ceneo web scraper to aplikacja webowa służąca do pobierania z serwisu Ceneo.pl opinii o produktach na 
+    podstawie ich indywidualnych kodów oraz do wyświetlenia pobranych opinii i podstawowych statystyk o nich.  
+    Dla produktu, którego kod poda użytkownik jako parametr zostanie pobrana jego nazwa oraz 
+    wszystkie dostępne opinie o nim. </p>
+    <p>Dla każdej opinii zostanie pobrane:</p>
+    <ul style="list-style-type:circle;">
+        <li>identyfikator opinii</li>
+        <li>autor</li>
+        <li>rekomendacja</li>
+        <li>liczba gwiazdek</li>
+        <li>czy opinia jest potwierdzona zakupem</li>
+        <li>data wystawienia opinii</li>
+        <li>data zakupu produktu</li>
+        <li>ile osób uznało opinię za przydatną</li>
+        <li>ile osób uznało opinię za nieprzydatną</li>
+        <li>treść opinii</li>
+        <li>lista wad</li>
+        <li>lista zalet</li>
+    </ul>
+    <P>Do stworzenia aplikacji zostały wykorzystane między innymi biblioteki: BeautifulSoup, pandas, numpy, requests, os, json, io.
+    Projek jest oparty na mikroframeworku flask.</p>
+    <br>
 {% endblock content %}
